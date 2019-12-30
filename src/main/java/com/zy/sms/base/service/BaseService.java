@@ -1,6 +1,6 @@
 package com.zy.sms.base.service;
 
-import com.zy.sms.PageResult;
+import com.zy.sms.common.PageResult;
 import com.zy.sms.util.QueryHelper;
 
 import java.io.Serializable;

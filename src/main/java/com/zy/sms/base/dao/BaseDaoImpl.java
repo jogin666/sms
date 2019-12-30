@@ -1,6 +1,6 @@
 package com.zy.sms.base.dao;
 
-import com.zy.sms.PageResult;
+import com.zy.sms.common.PageResult;
 import com.zy.sms.util.QueryHelper;
 import org.hibernate.Query;
 import org.hibernate.Session;

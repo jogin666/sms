@@ -1,6 +1,6 @@
 package com.zy.sms.base.controller;
 
-import com.zy.sms.PageResult;
+import com.zy.sms.common.PageResult;
 
 public class BaseController {
 

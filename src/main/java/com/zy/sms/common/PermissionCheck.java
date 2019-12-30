@@ -1,4 +1,4 @@
-package com.zy.sms;
+package com.zy.sms.common;
 
 import com.zy.sms.admin.dao.UserDao;
 import com.zy.sms.admin.dao.impl.UserDaoImpl;

@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.zy.sms.admin.role.entity.RoleEntity" %>
+<%@ page import="com.zy.sms.admin.entity.RoleEntity" %>
 <%
     String path=request.getContextPath();
     //提示消息

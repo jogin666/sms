@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.zy.sms.admin.entity.RoleEntity" table="role" schema="smss">
+        <id name="roleId" type="java.lang.String">
+            <column name="roleId" length="32"/>
+            <generator class="uuid.hex"/>
+        </id>
+        <property name="state">
+            <column name="state" sql-type="char(1)" length="1" not-null="true"/>
+        </property>
+        <property name="name">
+            <column name="name" sql-type="varchar(20)" length="20"/>
+        </property>
+        <set name="rolePrivileges" lazy="false" inverse="true" cascade="save-update,delete">
+            <key>
+                <column name="roleId"/>
+            </key>
+            <one-to-many class="com.zy.sms.admin.entity.RolePrivilegeEntity"></one-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

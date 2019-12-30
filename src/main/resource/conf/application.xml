@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:property-placeholder location="classpath:conf/db.properties"/>
+
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="jdbcUrl" value="${jdbcUrl}"/>
+        <property name="driverClass" value="${driverClass}"/>
+        <property name="user" value="${user}"/>
+        <property name="password" value="${password}"/>
+        <!-- 初始化连接数 Default: 10 -->
+        <property name="initialPoolSize" value="${initialPoolSize}"/>
+        <!--最小连接数。Default: 3 -->
+        <property name="minPoolSize" value="${minPoolSize}"/>
+        <!--最大连接数。Default: 30 -->
+        <property name="maxPoolSize" value="${maxPoolSize}"/>
+        <!--一次增长的连接数数。Default: 3 -->
+        <property name="acquireIncrement" value="${acquireIncrement}"/>
+        <!--缓存sql statement Default: 0 不缓存-->
+        <property name="maxStatements" value="${maxStatements}"/>
+        <!--存活最大空闲时间，0则永不丢弃。Default: 0 -->
+        <property name="maxIdleTime" value="${maxIdleTime}"/>
+        <!--每180秒检查所有连接池中的空闲连接。Default: 0 -->
+        <property name="idleConnectionTestPeriod" value="${idleConnectionTestPeriod}"/>
+        <!--尝试获取连接的次数。Default: 30 -->
+        <property name="acquireRetryAttempts" value="${acquireRetryAttempts}"/>
+        <!---等待获取数据库连接的时间-->
+        <property name="checkoutTimeout" value="100"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+                <prop key="hibernate.format_sql">true</prop>
+                <!--控制交由spring容器管理-->
+                <prop key="javax.persistence.validation.mode">none</prop>
+            </props>
+        </property>
+        <property name="mappingLocations">
+            <value>classpath:hbm/*.hbm.xml</value>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="get*"  read-only="true"/>
+            <tx:method name="list*" read-only="true"/>
+            <tx:method name="*" rollback-for="Throwable"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="serviceOperation" expression="bean(*Service)"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation"/>
+    </aop:config>
+
+    <!--开启事务注解-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--全部交给aop代理-->
+    <aop:aspectj-autoproxy  proxy-target-class="true"/>
+</beans>

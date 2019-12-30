@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.zy.sms.admin.entity.UserRoleEntity" table="user_role" schema="smss">
+        <!--复合主键-->
+        <composite-id name="userRoleEntityPk" class="com.zy.sms.admin.entity.UserRoleEntityPK">
+            <key-many-to-one name="role" class="com.zy.sms.admin.entity.RoleEntity" lazy="false">
+                <column name="roleId" not-null="true"/>
+            </key-many-to-one>
+
+            <key-property name="userId"  type="java.lang.String">
+                <column name="id" length="32"/>
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.zy.sms.admin.entity.ComplainEntity" table="complain" schema="smss">
+        <id name="compId" type="java.lang.String">
+            <column name="comp_id" length="32"/>
+            <generator class="uuid.hex"/>
+        </id>
+        <property name="compDept">
+            <column name="comp_dept" sql-type="varchar(100)" length="100" not-null="true"/>
+        </property>
+        <property name="compName">
+            <column name="comp_name" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="compMoblie">
+            <column name="comp_moblie" sql-type="char(11)" length="11" not-null="false"/>
+        </property>
+        <property name="isNm">
+            <column name="is_NM" sql-type="char(1)" length="1" not-null="true"/>
+        </property>
+        <property name="compTitle">
+            <column name="comp_title" sql-type="varchar(200)" length="200" not-null="true"/>
+        </property>
+        <property name="compTime">
+            <column name="comp_time" sql-type="timestamp" not-null="true"/>
+        </property>
+        <property name="toCompName">
+            <column name="to_comp_name" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="toCompDept">
+            <column name="to_comp_dept" sql-type="char(100)" length="100" not-null="true"/>
+        </property>
+        <property name="compContent">
+            <column name="comp_content" sql-type="varchar(500)" length="500" not-null="true"/>
+        </property>
+        <property name="state">
+            <column name="state" sql-type="char(1)" length="1" not-null="true"/>
+        </property>
+        <!-- 一 对 多 的关系-->
+        <set name="complainReplies" order-by="reply_time" lazy="false" cascade="save-update">
+            <key>
+                <column name="comp_id" length="32" not-null="true"/>
+            </key>
+            <one-to-many class="com.zy.sms.admin.entity.ComplainReplyEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

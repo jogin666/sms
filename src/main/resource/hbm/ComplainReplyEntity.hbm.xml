@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.zy.sms.admin.entity.ComplainReplyEntity" table="complain_reply" schema="smss">
+        <id name="replyId" type="java.lang.String">
+            <column name="reply_id" length="32"/>
+            <generator class="uuid.hex"/>
+        </id>
+        <property name="replyer">
+            <column name="replyer" sql-type="varchar(20)" length="20"/>
+        </property>
+        <property name="replyerDept">
+            <column name="replyer_dept" sql-type="varchar(30)" length="30" not-null="true"/>
+        </property>
+        <property name="replyTime">
+            <column name="reply_time" sql-type="timestamp" not-null="true"/>
+        </property>
+        <property name="replyContent">
+            <column name="reply_content" sql-type="varchar(500)" length="500" not-null="true"/>
+        </property>
+        <many-to-one name="complain" class="com.zy.sms.admin.entity.ComplainEntity">
+            <column name="comp_id" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

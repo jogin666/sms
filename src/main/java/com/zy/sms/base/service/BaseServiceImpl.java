@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
-@Transactional()
+@Transactional
 public class BaseServiceImpl<T> implements BaseService<T> {
 
     private BaseDao<T> baseBao;

@@ -16,15 +16,19 @@ public class PrivilegeInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String warningPath="/home/noPermissionUI.do";
+        String uri = request.getRequestURI();
+        if (uri.contains("admin")) {
+            String warningPath = "/home/noPermissionUI.do";
 
-        UserEntity user = (UserEntity) request.getSession().getAttribute(Constant.USER); //判断用户是否有权限
-        if (pc.isAccessible(user, Constant.PRIVILEGE_MAP.get(Constant.PRIVILEGE_ADMIN))) {
-           return true;
-        } else {
-            //告知没有权限访问
-            response.sendRedirect(request.getContextPath() + warningPath);
-            return false;
+            UserEntity user = (UserEntity) request.getSession().getAttribute(Constant.USER); //判断用户是否有权限
+            if (pc.isAccessible(user, Constant.PRIVILEGE_MAP.get(Constant.PRIVILEGE_ADMIN))) {
+                return true;
+            } else {
+                //告知没有权限访问
+                response.sendRedirect(request.getContextPath() + warningPath);
+                return false;
+            }
         }
+        return true;
     }
 }

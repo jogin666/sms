@@ -15,7 +15,9 @@
 
     <!--<import resource="classpath:conf/admin.xml"/>-->
     <!--<import resource="classpath:conf/base.xml"/>-->
-    <context:component-scan base-package="com.zy.sms"/>
+    <context:component-scan base-package="com.zy.sms">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+    </context:component-scan>
 
     <!--静态资源文件夹-->
     <mvc:resources mapping="/images/**" location="/images/"/>
